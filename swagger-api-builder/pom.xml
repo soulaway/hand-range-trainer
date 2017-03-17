@@ -17,7 +17,8 @@
 	</description>
 	
 	<modules>
-		<module>api-jaxrs-jersey</module>		
+<!-- 		<module>api-jaxrs-jersey</module> -->
+		<module>api-handrange</module>
 	</modules>
 	
 	<properties>
@@ -31,7 +32,7 @@
 		
 		<!-- swagger magic, default values, might overrides by children-->
 		<swagger-codegen-maven-plugin-language>jaxrs</swagger-codegen-maven-plugin-language>
-		<swagger-codegen-maven-plugin-library>jersey2</swagger-codegen-maven-plugin-library>
+		<swagger-codegen-maven-plugin-library></swagger-codegen-maven-plugin-library>
 		
 	</properties>
 	
@@ -90,8 +91,9 @@
 					<version>2.6</version>
 					<configuration>
 						<excludes>
-							<exclude>**/rest/api/factories/*</exclude>
-							<exclude>**/rest/api/impl/*</exclude>
+<!-- 							<exclude>**/rest/api/factories/*</exclude>
+							<exclude>**/rest/api/impl/*</exclude> -->
+							<exclude>**/io/*</exclude>
 						</excludes>
 					</configuration>
 				</plugin>
@@ -105,7 +107,7 @@
 				<plugin>
 					<groupId>io.swagger</groupId>
 					<artifactId>swagger-codegen-maven-plugin</artifactId>
-					<version>2.1.5</version>
+					<version>2.2.2</version>
 	
 					<executions>
 						<execution>
