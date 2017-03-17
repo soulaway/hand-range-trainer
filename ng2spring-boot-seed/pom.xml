@@ -11,7 +11,6 @@
 
 	<groupId>com.github.soulaway.ng2spring</groupId>
 	<artifactId>ng2spring-boot-seed</artifactId>
-
 	<packaging>pom</packaging>
 	
 	<name>ng2spring-boot-seed</name>
