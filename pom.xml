@@ -3,7 +3,7 @@
   <groupId>com.github.soulaway</groupId>
   <artifactId>hand-range-trainer</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <package>pom<package>
+  <packaging>pom</packaging>
 	<modules>
 		<module>swagger-api-builder</module>
 		<module>ng2spring-boot-seed</module>

@@ -10,7 +10,7 @@
 
 	<parent>
 		<groupId>com.github.soulaway.ng2spring</groupId>
-		<artifactId>parent</artifactId>
+		<artifactId>ng2spring-boot-seed</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
