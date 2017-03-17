@@ -1,0 +1,137 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.github.soulaway.swg2api</groupId>
+	<artifactId>swagger-api-builder</artifactId>
+	<packaging>pom</packaging>
+	
+	<parent>
+	  <groupId>com.github.soulaway</groupId>
+	  <artifactId>hand-range-trainer</artifactId>
+	  <version>0.0.1-SNAPSHOT</version>	
+	</parent>
+	
+	<description>
+		This generates Java JSON model and REST API into a single JAR library respectively in "model" and "api" subpackages.
+		All the code are generated from YAML model file @api-filename.
+	</description>
+	
+	<modules>
+		<module>api-jaxrs-jersey</module>		
+	</modules>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		
+		<api-filename>api.yaml</api-filename>
+		
+		<api-package>com.github.soulaway.myRestApi</api-package>
+		
+		<!-- swagger magic, default values, might overrides by children-->
+		<swagger-codegen-maven-plugin-language>jaxrs</swagger-codegen-maven-plugin-language>
+		<swagger-codegen-maven-plugin-library>jersey2</swagger-codegen-maven-plugin-library>
+		
+	</properties>
+	
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.sun.jersey.contribs</groupId>
+					<artifactId>maven-wadl-plugin</artifactId>
+					<version>1.17</version>
+					<executions>
+						<execution>
+							<id>generate</id>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+							<phase>${javadoc-phase}</phase>
+						</execution>
+					</executions>
+					<configuration>
+						<wadlFile>${project.build.outputDirectory}/application.wadl
+						</wadlFile>
+						<formatWadlFile>true</formatWadlFile>
+						<baseUri>http://localhost:8080/my/api</baseUri>
+						<packagesResourceConfig>
+							<param>${api-package}.api</param>
+						</packagesResourceConfig>
+						<wadlGenerators>
+							<wadlGeneratorDescription>
+								<className>com.sun.jersey.server.wadl.generators.WadlGeneratorApplicationDoc
+								</className>
+								<properties>
+									<property>
+										<name>applicationDocsFile</name>
+										<value>${basedir}/src/main/doc/application-doc.xml</value>
+									</property>
+								</properties>
+							</wadlGeneratorDescription>
+							<wadlGeneratorDescription>
+								<className>com.sun.jersey.server.wadl.generators.WadlGeneratorGrammarsSupport
+								</className>
+								<properties>
+									<property>
+										<name>grammarsFile</name>
+										<value>${basedir}/src/main/doc/application-grammars.xml</value>
+									</property>
+								</properties>
+							</wadlGeneratorDescription>
+						</wadlGenerators>
+					</configuration>
+				</plugin>
+	
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.6</version>
+					<configuration>
+						<excludes>
+							<exclude>**/rest/api/factories/*</exclude>
+							<exclude>**/rest/api/impl/*</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+	
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.6.1</version>
+				</plugin>
+	
+				<plugin>
+					<groupId>io.swagger</groupId>
+					<artifactId>swagger-codegen-maven-plugin</artifactId>
+					<version>2.1.5</version>
+	
+					<executions>
+						<execution>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+							<configuration>
+								<!-- specify the swagger yaml -->
+								<inputSpec>${basedir}/src/main/resources/${api-filename}</inputSpec>
+								<!-- target to generate -->
+								<language>${swagger-codegen-maven-plugin-language}</language>
+								<!-- pass any necessary config options -->
+								<configOptions>
+									<!-- <dateLibrary>java8</dateLibrary> -->
+									<invokerPackage>${api-package}</invokerPackage>
+									<modelPackage>${api-package}.model</modelPackage>
+									<apiPackage>${api-package}.api</apiPackage>
+									<sourceFolder>src/gen/java/main</sourceFolder>
+								</configOptions>
+								<!-- override the default library to jersey2 -->
+								<library>${swagger-codegen-maven-plugin-library}</library>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>		
+		</pluginManagement>
+	</build>
+</project>
