@@ -34,7 +34,8 @@
 		<dependency>
 			<groupId>com.github.soulaway.swg2api</groupId>
 			<artifactId>api-handrange</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
+			<!-- <scope>runtime</scope> -->
 		</dependency>
 	</dependencies>
 
@@ -55,7 +56,7 @@
 				</configuration>
 			</plugin>	
 					
-			<plugin>
+<!-- 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
@@ -68,7 +69,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 			
 		</plugins>
 

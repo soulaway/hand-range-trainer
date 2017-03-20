@@ -19,6 +19,7 @@
 	<modules>
 <!-- 		<module>api-jaxrs-jersey</module> -->
 		<module>api-handrange</module>
+		<module>api-handrange-cli</module>
 	</modules>
 	
 	<properties>

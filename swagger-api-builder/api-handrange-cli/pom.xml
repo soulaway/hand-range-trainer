@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.github.soulaway.swg2api</groupId>
+		<artifactId>swagger-api-builder</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>api-handrange-cli</artifactId>
+	<packaging>pom</packaging>
+	<properties>
+		<swagger-codegen-maven-plugin-language>typescript-angular2</swagger-codegen-maven-plugin-language>
+		<swagger-annotations-version>1.5.12</swagger-annotations-version>
+		<jodatime-version>2.3</jodatime-version>
+		<springfox-version>2.6.0</springfox-version>
+	</properties>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>../../ng2spring-boot-seed/frontend/src/main/frontend/src/app</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/target/generated-sources</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
