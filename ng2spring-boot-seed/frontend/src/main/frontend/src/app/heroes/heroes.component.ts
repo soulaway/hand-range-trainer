@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
-import { Jsonp, URLSearchParams } from '@angular/http';
+//import { Jsonp, URLSearchParams } from '@angular/http';
 import { Hero }                from '../model/hero';
 import { HeroService }         from '../service/hero.service';
 
 import { Range }              from '../swagger/model/Range';
 import { DefaultApi }         from '../swagger/api/DefaultApi';
-
-//import { Observable }         from 'rxjs/Observable';
-//import { Observer }         from 'rxjs/Observer';
 
 @Component({
   selector: 'my-heroes',
@@ -29,29 +26,27 @@ export class HeroesComponent implements OnInit {
     private heroService: HeroService,
     private rangeService: DefaultApi,
     private router: Router) { 
-      //this.rangesOble$ = new Observable<Range[]>(
-      //observer => {
-      //this.rangesObserver = observer;
-      //}
-      //).create();  
   }
 
   getHeroes(): void {
     console.log('get ranges: ');
-    this.rangeService.findRanges().subscribe(val => console.log(val));
-    this.heroService
-        .getHeroes()
-        .then(heroes => this.heroes = heroes);
+    this.rangeService.findRanges().subscribe(
+    	val => console.log(val)
+    );
+//    this.heroService
+//        .getHeroes()
+//        .then(heroes => this.heroes = heroes);
   }
 
   add(name: string): void {
     name = name.trim();
     if (!name) { return; }
-    this.heroService.create(name)
-      .then(hero => {
-        this.heroes.push(hero);
-        this.selectedHero = null;
-      });
+    this.rangeService.
+    //this.heroService.create(name)
+    //  .then(hero => {
+    //    this.heroes.push(hero);
+    //    this.selectedHero = null;
+    //  });
   }
 
   delete(hero: Hero): void {
