@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
-
+import { Jsonp, URLSearchParams } from '@angular/http';
 import { Hero }                from '../model/hero';
 import { HeroService }         from '../service/hero.service';
+
+import { Range }              from '../swagger/model/Range';
+import { DefaultApi }         from '../swagger/api/DefaultApi';
+
+//import { Observable }         from 'rxjs/Observable';
+//import { Observer }         from 'rxjs/Observer';
 
 @Component({
   selector: 'my-heroes',
@@ -10,14 +16,29 @@ import { HeroService }         from '../service/hero.service';
   styleUrls: [ './heroes.component.css' ]
 })
 export class HeroesComponent implements OnInit {
+  
   heroes: Hero[];
   selectedHero: Hero;
 
+  //rangesOble$: Observable<Range[]>;  
+  //rangesObserver: Observer<Range[]>;
+  ranges: Range[];
+  selRange: Range;
+  
   constructor(
     private heroService: HeroService,
-    private router: Router) { }
+    private rangeService: DefaultApi,
+    private router: Router) { 
+      //this.rangesOble$ = new Observable<Range[]>(
+      //observer => {
+      //this.rangesObserver = observer;
+      //}
+      //).create();  
+  }
 
   getHeroes(): void {
+    console.log('get ranges: ');
+    this.rangeService.findRanges().subscribe(val => console.log(val));
     this.heroService
         .getHeroes()
         .then(heroes => this.heroes = heroes);

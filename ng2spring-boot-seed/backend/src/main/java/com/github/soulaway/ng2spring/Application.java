@@ -18,12 +18,12 @@ public class Application {
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
-            System.out.println("inspecting Spring Boot's beans:");
+/*            System.out.println("inspecting Spring Boot's beans:");
             String[] beanNames = ctx.getBeanDefinitionNames();
             Arrays.sort(beanNames);
             for (String beanName : beanNames) {
                 System.out.println(beanName);
-            }
+            }*/
         };
     }
 }
