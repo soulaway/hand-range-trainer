@@ -41,7 +41,9 @@ export class HeroesComponent implements OnInit {
   add(name: string): void {
     name = name.trim();
     if (!name) { return; }
-    this.rangeService.
+    this.rangeService.addRange(name).subscribe(
+    	val => console.log(val)
+    );
     //this.heroService.create(name)
     //  .then(hero => {
     //    this.heroes.push(hero);
