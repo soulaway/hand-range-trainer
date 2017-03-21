@@ -20,7 +20,7 @@ consumes:
 produces:
   - application/json
 paths:
-  /range:
+  /ranges:
     get:
       description: Returns all ranges from the system
       operationId: findRanges
@@ -37,6 +37,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/errorModel'
+  /ranges/{range}:
     post:
       description: Creates a new range in the store.  Duplicates are disallowed
       operationId: addRange
@@ -44,11 +45,10 @@ paths:
         - application/json
       parameters:
         - name: range
-          in: body
-          description: Pet to add to the store
+          in: path
+          description: Range added
           required: true
-          schema:
-            $ref: '#/definitions/Range'
+          type: string
       responses:
         '200':
           description: ranges response
