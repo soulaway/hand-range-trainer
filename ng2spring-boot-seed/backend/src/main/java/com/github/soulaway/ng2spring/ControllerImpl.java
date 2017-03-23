@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.github.soulaway.myRestApi.model.Range;
@@ -16,6 +18,7 @@ import io.swagger.annotations.ApiParam;
 
 @Controller()
 @RequestMapping("/api")
+@CrossOrigin
 public class ControllerImpl implements com.github.soulaway.myRestApi.api.RangeApi{
 	
 	private List <Range> rangesRep = new ArrayList<Range>();
@@ -49,6 +52,17 @@ public class ControllerImpl implements com.github.soulaway.myRestApi.api.RangeAp
 
     public ResponseEntity<List<Range>> findRanges() {
         return ResponseEntity.ok(rangesRep);
+    }
+    
+    public ResponseEntity<Range> updateRange(@ApiParam(value = "Range to update" ,required=true ) @RequestBody Range range) {
+    	Optional<Range> repoRange = rangesRep.stream().filter(r -> r.getRangeId().equals(range.getRangeId())).findFirst();
+    	if (repoRange.isPresent()){
+    		repoRange.get().setRangeName(range.getRangeName());
+    		repoRange.get().setTag(range.getTag());
+    		return ResponseEntity.ok(repoRange.get());
+    	} else {
+    		return ResponseEntity.unprocessableEntity().eTag(String.format("Entiity with Id %d was not found", range.getRangeId())).body(null);
+    	}
     }
 }
 

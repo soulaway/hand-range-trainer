@@ -1,0 +1,17 @@
+<h2>My Ranges</h2>
+<div>
+	<label>Range name:</label> <input #rangeName />
+	<button (click)="add(rangeName.value); rangeName.value=''">
+		Add</button>
+</div>
+<ul class="ranges">
+	<li *ngFor="let range of ranges" (click)="onSelect(range)"
+		[class.selected]="range === selectedRange"><span class="badge">{{range.id}}</span>
+		<span>{{range.name}}</span>
+		<button class="delete"
+			(click)="delete(range); $event.stopPropagation()">x</button></li>
+</ul>
+<div *ngIf="selectedRange">
+	<h2>{{selectedRange.name | uppercase}} is my range</h2>
+	<button (click)="gotoDetail()">View Details</button>
+</div>

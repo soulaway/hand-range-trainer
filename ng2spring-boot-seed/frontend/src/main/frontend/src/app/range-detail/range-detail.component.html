@@ -1,0 +1,12 @@
+<div *ngIf="range">
+	<h2>{{range.rangeName}} details!</h2>
+	<div>
+		<label>id: </label>{{range.rangeId}}
+	</div>
+	<div>
+		<label>name: </label> <input [(ngModel)]="range.rangeName"
+			placeholder="name" />
+	</div>
+	<button (click)="goBack()">Back</button>
+	<button (click)="save()">Save</button>
+</div>

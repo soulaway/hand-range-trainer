@@ -11,28 +11,28 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent }         from './app.component';
 import { DashboardComponent }   from './dashboard/dashboard.component';
-import { HeroesComponent }      from './heroes/heroes.component';
-import { HeroDetailComponent }  from './hero-detail/hero-detail.component';
-import { HeroService }          from './service/hero.service';
+import { RangesComponent }      from './ranges/ranges.component';
+import { RangeDetailComponent }  from './range-detail/range-detail.component';
 import { DefaultApi }          from './swagger/api/DefaultApi';
-import { HeroSearchComponent }  from './hero-search/hero-search.component';
+import { RangeSearchComponent }  from './range-search/range-search.component';
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    //InMemoryWebApiModule.forRoot(InMemoryDataService),
     AppRoutingModule
   ],
   declarations: [
     AppComponent,
     DashboardComponent,
-    HeroDetailComponent,
-    HeroesComponent,
-    HeroSearchComponent
+    RangeDetailComponent,
+    RangesComponent,
+    RangeSearchComponent
   ],
-  providers: [ HeroService, DefaultApi ],
+  providers: [ DefaultApi ],
   bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {
+    
+}

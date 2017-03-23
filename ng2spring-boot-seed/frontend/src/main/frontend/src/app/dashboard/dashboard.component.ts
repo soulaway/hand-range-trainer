@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Hero }        from '../model/hero';
-import { HeroService } from '../service/hero.service';
+import { Range }              from '../swagger/model/Range';
+import { DefaultApi }         from '../swagger/api/DefaultApi';
 
 @Component({
   selector: 'my-dashboard',
@@ -9,12 +9,14 @@ import { HeroService } from '../service/hero.service';
   styleUrls: [ './dashboard.component.css' ]
 })
 export class DashboardComponent implements OnInit {
-  heroes: Hero[] = [];
+  ranges: Range[] = [];
 
-  constructor(private heroService: HeroService) { }
+  constructor(private rangeService: DefaultApi) { }
 
   ngOnInit(): void {
-    this.heroService.getHeroes()
-      .then(heroes => this.heroes = heroes.slice(1, 5));
+      this.rangeService.defaultHeaders.append("Content-Type", 'application/json;charset=UTF-8');
+      this.rangeService.findRanges().subscribe(
+       ranges => this.ranges = ranges.slice(1, 5)
+    );
   }
 }

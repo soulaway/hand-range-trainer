@@ -37,7 +37,27 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/errorModel'
-
+    put:
+      description: Updats existed range.
+      operationId: updateRange
+      produces:
+        - application/json
+      parameters:
+        - name: range
+          in: body
+          description: Range to update
+          required: true
+          schema:
+            $ref: '#/definitions/Range'
+      responses:
+        '200':
+          description: ranges response
+          schema:
+            $ref: '#/definitions/Range'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
   /range/new/{rangeName}:
     post:
       description: Creates a new range in the store.  Duplicates are disallowed
