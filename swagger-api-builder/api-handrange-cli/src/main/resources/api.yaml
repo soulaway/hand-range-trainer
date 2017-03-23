@@ -20,7 +20,7 @@ consumes:
 produces:
   - application/json
 paths:
-  /range:
+  /range/:
     get:
       description: Returns all ranges from the system
       operationId: findRanges
@@ -38,14 +38,14 @@ paths:
           schema:
             $ref: '#/definitions/errorModel'
 
-  /range/{id}:
+  /range/new/{rangeName}:
     post:
       description: Creates a new range in the store.  Duplicates are disallowed
       operationId: addRange
       produces:
         - application/json
       parameters:
-        - name: id
+        - name: rangeName
           in: path
           description: Range added
           required: true
@@ -59,13 +59,14 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/errorModel'
+  /range/{rangeId}:
     get:
       description: Returns a Range based on a single ID
       operationId: findRangeById
       produces:
         - application/json
       parameters:
-        - name: id
+        - name: rangeId
           in: path
           description: ID of range to fetch
           required: true
@@ -84,7 +85,7 @@ paths:
       description: deletes a single Range based on the ID
       operationId: deleteRange
       parameters:
-        - name: id
+        - name: rangeId
           in: path
           description: ID of the range to delete
           required: true
@@ -101,13 +102,13 @@ definitions:
   Range:
     type: object
     required:
-      - id
-      - name
+      - rangeId
+      - rangeName
     properties:
-      id:
+      rangeId:
         type: integer
         format: int64
-      name:
+      rangeName:
         type: string
       tag:
         type: string
