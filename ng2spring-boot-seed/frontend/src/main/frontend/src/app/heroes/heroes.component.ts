@@ -30,6 +30,7 @@ export class HeroesComponent implements OnInit {
 
   getHeroes(): void {
     console.log('get ranges: ');
+    this.rangeService.defaultHeaders.append("Content-Type", 'application/json;charset=UTF-8');
     this.rangeService.findRanges().subscribe(
     	val => console.log(val)
     );
