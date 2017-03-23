@@ -17,7 +17,6 @@
 	</description>
 	
 	<modules>
-<!-- 		<module>api-jaxrs-jersey</module> -->
 		<module>api-handrange</module>
 		<module>api-handrange-cli</module>
 	</modules>
@@ -32,7 +31,7 @@
 		<api-package>com.github.soulaway.myRestApi</api-package>
 		
 		<!-- swagger magic, default values, might overrides by children-->
-		<swagger-codegen-maven-plugin-language>jaxrs</swagger-codegen-maven-plugin-language>
+		<swagger-codegen-maven-plugin-language></swagger-codegen-maven-plugin-language>
 		<swagger-codegen-maven-plugin-library></swagger-codegen-maven-plugin-library>
 		
 	</properties>
@@ -125,7 +124,6 @@
 					<groupId>io.swagger</groupId>
 					<artifactId>swagger-codegen-maven-plugin</artifactId>
 					<version>2.2.2</version>
-	
 					<executions>
 						<execution>
 							<goals>
