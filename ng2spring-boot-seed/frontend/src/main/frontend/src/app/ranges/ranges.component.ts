@@ -39,9 +39,10 @@ export class RangesComponent implements OnInit {
 
   delete(range: Range): void {
     this.rangeService.deleteRange(range.rangeId).subscribe(
-        () => {
-          this.ranges = this.ranges.filter(h => h !== range);
-          if (this.selectedRange === range) { this.selectedRange = null; }
+        r => {
+          this.selectedRange = null;
+          this.getRanges();
+          location.reload();
         }
      );
   }
@@ -57,5 +58,9 @@ export class RangesComponent implements OnInit {
 
   gotoDetail(): void {
     this.router.navigate(['/detail', this.selectedRange.rangeId]);
+  }
+  
+  getHand(): void {
+    this.router.navigate(['/hand', this.selectedRange.rangeId]);
   }
 }

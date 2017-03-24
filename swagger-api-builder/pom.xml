@@ -114,6 +114,7 @@
 	                        <configuration>
 	                            <sources>
 	                                <source>${project.build.directory}/generated-sources/swagger/src/gen/java/main</source>
+	                                <!-- TODO exclude obvious boot sources from jar -> need to be cofigured in child modules-->
 	                            </sources>
 	                        </configuration>
 	                    </execution>

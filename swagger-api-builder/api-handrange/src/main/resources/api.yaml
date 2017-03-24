@@ -19,7 +19,9 @@ consumes:
   - application/json
 produces:
   - application/json
+
 paths:
+
   /range/:
     get:
       description: Returns all ranges from the system
@@ -36,7 +38,7 @@ paths:
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/errorModel'
+            $ref: '#/definitions/ErrorModel'
     put:
       description: Updats existed range.
       operationId: updateRange
@@ -57,7 +59,8 @@ paths:
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/errorModel'
+            $ref: '#/definitions/ErrorModel'
+
   /range/new/{rangeName}:
     post:
       description: Creates a new range in the store.  Duplicates are disallowed
@@ -78,7 +81,8 @@ paths:
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/errorModel'
+            $ref: '#/definitions/ErrorModel'
+
   /range/{rangeId}:
     get:
       description: Returns a Range based on a single ID
@@ -100,7 +104,7 @@ paths:
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/errorModel'
+            $ref: '#/definitions/ErrorModel'
     delete:
       description: deletes a single Range based on the ID
       operationId: deleteRange
@@ -117,8 +121,55 @@ paths:
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/errorModel'
+            $ref: '#/definitions/ErrorModel'
+
+  /hand/{rangeId}:
+    post:
+      description: Generates two cards hand. Might not be equal.
+      operationId: genHand
+      produces:
+        - application/json
+      parameters:
+        - name: rangeId
+          in: path
+          description: Range Id of the new Hand being generated
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: ranges response
+          schema:
+            $ref: '#/definitions/Hand'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /hand/:
+    put:
+      description: Updates givven hand with answer.
+      operationId: solveHand
+      produces:
+        - application/json
+      parameters:
+        - name: hand
+          in: body
+          description: Hand to solve
+          required: true
+          schema:
+            $ref: '#/definitions/Hand'
+      responses:
+        '200':
+          description: ranges response
+          schema:
+            $ref: '#/definitions/RangeStat'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
 definitions:
+  
   Range:
     type: object
     required:
@@ -132,7 +183,55 @@ definitions:
         type: string
       tag:
         type: string
-  errorModel:
+  
+  RangeStat:
+    type: object
+    required:
+      - rangeId
+    properties:
+      rangeId:
+        type: integer
+        format: int64
+      total:
+        type: integer
+        format: int32
+      successed:
+        type: integer
+        format: int32
+      lastTry:
+        type: boolean
+
+  Card:
+    type: object
+    required:
+      - rank
+      - suite
+    properties:
+      rank:
+        type: string
+      suite:
+        type: string
+
+  Hand:
+    type: object
+    description: Hand of two cards with info about Range 
+    required:
+      - rangeId
+      - left
+      - right
+    properties:
+      rangeId:
+        type: integer
+        format: int64
+      left:
+        $ref: '#/definitions/Card'
+      right:
+        $ref: '#/definitions/Card'
+      answer:
+        type: integer
+        format: int32
+  
+  ErrorModel:
     type: object
     required:
       - code

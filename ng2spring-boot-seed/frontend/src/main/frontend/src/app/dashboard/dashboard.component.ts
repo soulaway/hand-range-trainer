@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
       this.rangeService.defaultHeaders.append("Content-Type", 'application/json;charset=UTF-8');
       this.rangeService.findRanges().subscribe(
-       ranges => this.ranges = ranges.slice(1, 5)
+       ranges => this.ranges = ranges
     );
   }
 }

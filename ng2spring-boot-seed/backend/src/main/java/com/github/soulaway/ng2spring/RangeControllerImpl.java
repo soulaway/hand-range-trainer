@@ -1,9 +1,9 @@
 package com.github.soulaway.ng2spring;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,22 +19,23 @@ import io.swagger.annotations.ApiParam;
 @Controller()
 @RequestMapping("/api")
 @CrossOrigin
-public class ControllerImpl implements com.github.soulaway.myRestApi.api.RangeApi{
+public class RangeControllerImpl implements com.github.soulaway.myRestApi.api.RangeApi{
 	
-	private List <Range> rangesRep = new ArrayList<Range>();
-
+	@Autowired
+	private RangeService service;
+	
     public ResponseEntity<Range> addRange(@ApiParam(value = "Range added",required=true ) @PathVariable("rangeName") String rangeName) {
         Range r = new Range();
         r.setRangeName(rangeName);
-        r.setRangeId(new Long(rangesRep.size()));
-        rangesRep.add(r);
+        r.setRangeId(new Long(service.getRanges().size()));
+        service.addRanges(r);
         return ResponseEntity.ok(r);
     }
 
     public ResponseEntity<Void> deleteRange(@ApiParam(value = "ID of the range to delete",required=true ) @PathVariable("rangeId") Long rangeId) {
-    	Optional<Range> range = rangesRep.stream().filter(r -> r.getRangeId().equals(rangeId)).findFirst();
+    	Optional<Range> range = service.getRanges().stream().filter(r -> r.getRangeId().equals(rangeId)).findFirst();
     	if (range.isPresent()){
-    		rangesRep.remove(range.get());
+    		service.getRanges().remove(range.get());
     		return ResponseEntity.ok().build();
     	} else {
     		return ResponseEntity.unprocessableEntity().eTag(String.format("Entiity with Id %d was not found", rangeId)).build();
@@ -42,7 +43,7 @@ public class ControllerImpl implements com.github.soulaway.myRestApi.api.RangeAp
     }
 
     public ResponseEntity<Range> findRangeById(@ApiParam(value = "ID of range to fetch",required=true ) @PathVariable("rangeId") Long rangeId) {
-    	Optional<Range> range = rangesRep.stream().filter(r -> r.getRangeId().equals(rangeId)).findFirst();
+    	Optional<Range> range = service.getRanges().stream().filter(r -> r.getRangeId().equals(rangeId)).findFirst();
     	if (range.isPresent()){
     		return ResponseEntity.ok(range.get());
     	} else {
@@ -51,11 +52,11 @@ public class ControllerImpl implements com.github.soulaway.myRestApi.api.RangeAp
     }
 
     public ResponseEntity<List<Range>> findRanges() {
-        return ResponseEntity.ok(rangesRep);
+        return ResponseEntity.ok(service.getRanges());
     }
     
     public ResponseEntity<Range> updateRange(@ApiParam(value = "Range to update" ,required=true ) @RequestBody Range range) {
-    	Optional<Range> repoRange = rangesRep.stream().filter(r -> r.getRangeId().equals(range.getRangeId())).findFirst();
+    	Optional<Range> repoRange = service.getRanges().stream().filter(r -> r.getRangeId().equals(range.getRangeId())).findFirst();
     	if (repoRange.isPresent()){
     		repoRange.get().setRangeName(range.getRangeName());
     		repoRange.get().setTag(range.getTag());
@@ -65,4 +66,3 @@ public class ControllerImpl implements com.github.soulaway.myRestApi.api.RangeAp
     	}
     }
 }
-

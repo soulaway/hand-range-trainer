@@ -1,0 +1,22 @@
+<div *ngIf="hand">
+	<h2>Hand for range {{hand.rangeId}}</h2>
+	<div class="grid">
+			<label>{{hand.left.rank}} {{hand.left.suite}}</label>
+			<label>{{hand.right.rank}} {{hand.right.suite}}</label> 
+	</div>
+	<div>
+		<button (click)="answer(0)">Raise</button>
+		<button (click)="answer(1)">Bet</button>
+		<button (click)="answer(2)">Fold</button>
+	</div>
+	
+	<div *ngIf="stat">
+		<h2>
+			<label>Result {{stat.lastTry}}</label>
+		</h2>
+		<label>Total {{stat.total}}</label>
+		<label>Successes {{stat.successed}}</label> 
+	</div>
+	
+	<button (click)="goBack()">Back</button>
+</div>
