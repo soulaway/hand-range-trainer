@@ -80,6 +80,26 @@ h4 {
 	border-radius: 2px;
 }
 
+.module0 {
+	padding: 2px;
+	text-align: center;
+	color: #eee;
+	max-height: 60px;
+	min-width: 60px;
+	background-color: #60008B;
+	border-radius: 2px;
+}
+
+.module50 {
+	padding: 2px;
+	text-align: center;
+	color: #eee;
+	max-height: 60px;
+	min-width: 60px;
+	background-color: #60AA8B;
+	border-radius: 2px;
+}
+
 .module:hover {
 	background-color: #EEE;
 	cursor: pointer;

@@ -1,18 +1,23 @@
 <div *ngIf="range">
-	<h2>{{range.rangeName}} details!</h2>
+	<h2>{{range.tag}} details!</h2>
 	<div>
-		<label>id: </label>{{range.rangeId}}
+		<label>Id: </label>{{range.rangeId}}
 	</div>
 	<div>
-		<label>name: </label> <input [(ngModel)]="range.rangeName"
-			placeholder="name" />
+		<label>Tag: </label><input [(ngModel)]="range.tag"
+			placeholder="name of the range" />
+	</div>
+	<div>
+		<label>Value: </label> <input [(ngModel)]="range.rangeName"
+			placeholder="range value" />
 	</div>
 	<button (click)="goBack()">Back</button>
 	<button (click)="save()">Save</button>
 	<div class="grid grid-pad">
 		<a *ngFor="let mtxItem of getRangeTable()"
-			[routerLink]="['/detail', range.rangeId]" class="col-1-11">
-			<div class="module range">
+			[routerLink]="['/detail', range.rangeId]" 
+			class="col-1-11">
+			<div class="module{{mtxItem.option}} range">
 				<h4>{{mtxItem.val}}</h4>
 			</div>
 		</a>

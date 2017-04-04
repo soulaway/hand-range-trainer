@@ -7,7 +7,7 @@
 <ul class="ranges">
 	<li *ngFor="let range of ranges" (click)="onSelect(range)"
 		[class.selected]="range === selectedRange"><span class="badge">{{range.rangeId}}</span>
-		<span>{{range.rangeName}}</span>
+		<span>{{range.tag}}</span>
 		<button class="delete"
 			(click)="delete(range); $event.stopPropagation()">x</button></li>
 </ul>

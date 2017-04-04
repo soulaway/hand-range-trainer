@@ -26,7 +26,7 @@ export class RangesComponent implements OnInit {
   }
 
   add(name: string): void {
-    name = name.trim();
+    //name = name.trim();
     if (!name) { return; }
     this.rangeService.addRange(name).subscribe(
       range => {
