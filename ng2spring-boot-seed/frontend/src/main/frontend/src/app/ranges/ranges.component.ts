@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
-//import { Jsonp, URLSearchParams } from '@angular/http';
 
 import { Range }              from '../swagger/model/Range';
 import { DefaultApi }         from '../swagger/api/DefaultApi';
@@ -40,9 +39,11 @@ export class RangesComponent implements OnInit {
   delete(range: Range): void {
     this.rangeService.deleteRange(range.rangeId).subscribe(
         r => {
-          this.selectedRange = null;
-          this.getRanges();
-          location.reload();
+            var index = this.ranges.indexOf(range, 0);
+            if (index > -1) {
+                this.selectedRange = null
+                this.ranges.splice(index, 1);
+            }
         }
      );
   }

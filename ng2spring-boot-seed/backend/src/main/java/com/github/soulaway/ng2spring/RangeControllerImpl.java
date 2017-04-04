@@ -40,7 +40,7 @@ public class RangeControllerImpl implements com.github.soulaway.myRestApi.api.Ra
     	Optional<Range> range = service.getRanges().stream().filter(r -> r.getRangeId().equals(rangeId)).findFirst();
     	if (range.isPresent()){
     		service.getRanges().remove(range.get());
-    		return ResponseEntity.ok().build();
+    		return ResponseEntity.noContent().build();
     	} else {
     		return ResponseEntity.unprocessableEntity().eTag(String.format("Entiity with Id %d was not found", rangeId)).build();
     	}
