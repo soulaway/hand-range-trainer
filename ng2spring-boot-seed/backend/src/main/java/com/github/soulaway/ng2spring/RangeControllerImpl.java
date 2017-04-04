@@ -16,7 +16,7 @@ import com.github.soulaway.myRestApi.model.Range;
 import io.swagger.annotations.ApiParam;
 
 
-@Controller()
+@Controller
 @RequestMapping("/api")
 @CrossOrigin
 public class RangeControllerImpl implements com.github.soulaway.myRestApi.api.RangeApi{
@@ -24,10 +24,14 @@ public class RangeControllerImpl implements com.github.soulaway.myRestApi.api.Ra
 	@Autowired
 	private RangeService service;
 	
+	@Autowired
+	private TableService tService;
+	
     public ResponseEntity<Range> addRange(@ApiParam(value = "Range added",required=true ) @PathVariable("rangeName") String rangeName) {
         Range r = new Range();
         r.setRangeName(rangeName);
         r.setRangeId(new Long(service.getRanges().size()));
+        r.setTable(tService.generate(rangeName));
         service.addRanges(r);
         return ResponseEntity.ok(r);
     }
@@ -60,6 +64,7 @@ public class RangeControllerImpl implements com.github.soulaway.myRestApi.api.Ra
     	if (repoRange.isPresent()){
     		repoRange.get().setRangeName(range.getRangeName());
     		repoRange.get().setTag(range.getTag());
+    		repoRange.get().setTable(tService.generate(range.getRangeName()));
     		return ResponseEntity.ok(repoRange.get());
     	} else {
     		return ResponseEntity.unprocessableEntity().eTag(String.format("Entiity with Id %d was not found", range.getRangeId())).body(null);

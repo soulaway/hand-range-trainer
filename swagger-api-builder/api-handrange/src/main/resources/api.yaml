@@ -183,6 +183,8 @@ definitions:
         type: string
       tag:
         type: string
+      table:
+        $ref: '#/definitions/RangeTable'
   
   RangeStat:
     type: object
@@ -231,6 +233,50 @@ definitions:
         type: integer
         format: int32
   
+  RangeTable:
+    type: object
+    description: represents the hands range table. consists of 3 arrays, one vector and two symmetric matrix. e.g. e.g. http://www.pokerhandrange.com/
+    required:
+      - mainDiag
+      - mtxS
+      - mtxO
+    properties:
+      mainDiag:
+        $ref: '#/definitions/TableItems'
+      mtxS:
+        type: array
+        description: Triangle (Symmetric to mtxS) Matrix [(AK-A2); (KQ-K2); ... (32)] defining hands with same colors
+        items:
+          $ref: '#/definitions/TableItems'
+      mtxO:
+        type: array
+        description: Triangle (Symmetric to mtxS) Matrix [(AK-A2); (KQ-K2); ... (32)] defining hands with different colors
+        items:
+          $ref: '#/definitions/TableItems'
+  
+  TableItems:
+    type: object
+    description: the ranges vector. e.g. [AA-22]
+    required:
+      - values
+    properties:
+      values:
+        type: array
+        items:
+          $ref: '#/definitions/TableItem'    
+
+  TableItem:
+    type: object
+    description: represents an visible object in ranges table
+    required:
+      - val
+    properties:
+      val:
+        type: string
+      option:
+        type: integer
+        format: int32 
+                    
   ErrorModel:
     type: object
     required:
