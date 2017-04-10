@@ -3,6 +3,6 @@
 	<input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
 	<div>
 		<div *ngFor="let range of ranges | async" (click)="gotoDetail(range)"
-			class="search-result">{{range.rangeName}}</div>
+			class="search-result">{{range.name}}</div>
 	</div>
 </div>

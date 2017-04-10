@@ -1,4 +1,4 @@
-package com.github.soulaway.ng2spring;
+package com.github.soulaway.ng2spring.trainer.enums;
 
 /**
  * ♣♢ ♡♠ A-2

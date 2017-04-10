@@ -1,4 +1,4 @@
-package com.github.soulaway.ng2spring;
+package com.github.soulaway.ng2spring.trainer;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.soulaway.myRestApi.model.RangeTable;
+import com.github.soulaway.ng2spring.trainer.service.TableService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

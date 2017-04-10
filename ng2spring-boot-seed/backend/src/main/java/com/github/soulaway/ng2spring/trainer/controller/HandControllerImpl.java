@@ -1,9 +1,8 @@
-package com.github.soulaway.ng2spring;
+package com.github.soulaway.ng2spring.trainer.controller;
 
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.github.soulaway.myRestApi.model.Card;
 import com.github.soulaway.myRestApi.model.Hand;
 import com.github.soulaway.myRestApi.model.RangeStat;
+import com.github.soulaway.ng2spring.trainer.enums.HandPack;
+import com.github.soulaway.ng2spring.trainer.service.RangeService;
 
 import io.swagger.annotations.ApiParam;
 
+// TODO separate logic to HandSevice
 
 @Controller()
 @RequestMapping("/api")

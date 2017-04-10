@@ -1,13 +1,13 @@
 <h2>My Ranges</h2>
 <div>
-	<label>Range name:</label> <input #rangeName />
+	<label>Manage training</label> <input #rangeName />
 	<button (click)="add(rangeName.value); rangeName.value=''">
 		Add</button>
 </div>
 <ul class="ranges">
 	<li *ngFor="let range of ranges" (click)="onSelect(range)"
 		[class.selected]="range === selectedRange"><span class="badge">{{range.rangeId}}</span>
-		<span>{{range.tag}}</span>
+		<span>{{range.name}}</span>
 		<button class="delete"
 			(click)="delete(range); $event.stopPropagation()">x</button></li>
 </ul>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
 
 import { Range }              from '../swagger/model/Range';
+import { RangeType }              from '../swagger/model/RangeType';
 import { DefaultApi }         from '../swagger/api/DefaultApi';
 
 @Component({
@@ -28,7 +29,8 @@ export class RangesComponent implements OnInit {
   add(name: string): void {
     //name = name.trim();
     if (!name) { return; }
-    this.rangeService.addRange(name).subscribe(
+    console.log(name);
+    this.rangeService.addRange(name, RangeType._1a).subscribe(
       range => {
         this.ranges.push(range);
         this.selectedRange = null;

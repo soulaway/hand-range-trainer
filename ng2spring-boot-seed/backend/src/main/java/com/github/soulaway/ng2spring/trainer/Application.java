@@ -1,4 +1,4 @@
-package com.github.soulaway.ng2spring;
+package com.github.soulaway.ng2spring.trainer;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

@@ -1,4 +1,4 @@
-package com.github.soulaway.ng2spring;
+package com.github.soulaway.ng2spring.trainer.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;

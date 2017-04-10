@@ -1,4 +1,4 @@
-package com.github.soulaway.ng2spring;
+package com.github.soulaway.ng2spring.trainer.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,15 @@ import com.github.soulaway.myRestApi.model.TableItem;
 import com.github.soulaway.myRestApi.model.TableItems;
 import com.github.soulaway.myRestApi.model.RangeTable;
 
+/**
+ * Table service represents a model of the Poker Ranges Table 
+ * e.g.: http://www.pokerhandrange.com/ 
+ * Consists of 3 arrays that describes a symmetric matrix: 
+ * Vector for main diagonal pairs and both low and high triangle matrixes for unpaired hands
+ * 
+ * @author soul
+ *
+ */
 @Service
 public class TableService {
 	
@@ -59,6 +68,7 @@ public class TableService {
 	private static void parseRanges(String rangesLine, RangeTable mtx){
 		int rank = 0;		
 		int prev_rank = rank;
+		System.out.println(rangesLine);
 		String[] ranges = rangesLine.split(RANGE_SEPARATOR);
 		for (String subrange : ranges) {
 			
@@ -170,7 +180,10 @@ public class TableService {
 		});
 		return result;
 	}
-
+	
+	// creates a sequential list with TableItems, as it displays for user
+	// already ported to front-end
+	/*
 	public List<TableItem> getTable(RangeTable mtx){
 		List<TableItem> ret = new ArrayList<TableItem>();
 		for (int i = 0; i < cards.length; i++){
@@ -188,4 +201,5 @@ public class TableService {
 		}
 		return ret;
 	}
+	*/
 }

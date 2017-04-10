@@ -61,18 +61,24 @@ paths:
           schema:
             $ref: '#/definitions/ErrorModel'
 
-  /range/new/{rangeName}:
+  /range/new/{value}:
     post:
-      description: Creates a new range in the store.  Duplicates are disallowed
+      description: Creates a new range in the store.  Duplicates are disallowed //TODO disallow
       operationId: addRange
       produces:
         - application/json
       parameters:
-        - name: rangeName
+        - name: value
           in: path
-          description: Range added
+          description: String range representation, e.g. "AA-QQ,TT-77"
           required: true
           type: string
+        - name: type
+          in: body
+          description: Range type
+          required: true
+          schema:
+            $ref: '#/definitions/RangeType'
       responses:
         '200':
           description: ranges response
@@ -174,18 +180,24 @@ definitions:
     type: object
     required:
       - rangeId
-      - rangeName
+      - value
     properties:
       rangeId:
         type: integer
         format: int64
-      rangeName:
+      name:
         type: string
-      tag:
+      value:
         type: string
       table:
         $ref: '#/definitions/RangeTable'
-  
+      type:
+        $ref: '#/definitions/RangeType'
+
+  RangeType:
+    type: string
+    enum: ['1a','2b','3c','4d']
+
   RangeStat:
     type: object
     required:
@@ -235,7 +247,7 @@ definitions:
   
   RangeTable:
     type: object
-    description: represents the hands range table. consists of 3 arrays, one vector and two symmetric matrix. e.g. e.g. http://www.pokerhandrange.com/
+    description: symmetric matrix - vector for main diagonal and both low and high triangle matrixes for unpaired hands.
     required:
       - mainDiag
       - mtxS
@@ -245,18 +257,18 @@ definitions:
         $ref: '#/definitions/TableItems'
       mtxS:
         type: array
-        description: Triangle (Symmetric to mtxS) Matrix [(AK-A2); (KQ-K2); ... (32)] defining hands with same colors
+        description: High Triangle (Symmetric to mtxO) Matrix [(AK-A2); (KQ-K2); ... (32)] defining hands with same colors
         items:
           $ref: '#/definitions/TableItems'
       mtxO:
         type: array
-        description: Triangle (Symmetric to mtxS) Matrix [(AK-A2); (KQ-K2); ... (32)] defining hands with different colors
+        description: Low Triangle (Symmetric to mtxS) Matrix [(AK-A2); (KQ-K2); ... (32)] defining hands with different colors
         items:
           $ref: '#/definitions/TableItems'
   
   TableItems:
     type: object
-    description: the ranges vector. e.g. [AA-22]
+    description: the ranges vector. e.g. [AA-22] or [AKs-A2s]
     required:
       - values
     properties:
