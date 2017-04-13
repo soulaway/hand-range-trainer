@@ -1,8 +1,11 @@
 <h2>My Ranges</h2>
 <div>
-	<label>Manage training</label> <input #rangeName />
+	<div>
+		<label>Manage training</label> 
+	</div>
+	<input #rangeName />
 	<button (click)="add(rangeName.value); rangeName.value=''">
-		Add</button>
+		Add new</button>
 </div>
 <ul class="ranges">
 	<li *ngFor="let range of ranges" (click)="onSelect(range)"

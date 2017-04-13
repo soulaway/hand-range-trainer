@@ -5,6 +5,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 	<modules>
+		<module>deployment</module>
 		<module>swagger-api-builder</module>
 		<module>ng2spring-boot-seed</module>
 	</modules>
