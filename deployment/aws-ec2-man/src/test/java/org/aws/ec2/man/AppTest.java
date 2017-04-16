@@ -18,10 +18,7 @@ public class AppTest {
 	
 	private static final String TEST_IMG_ID = "ami-5b06d634";
 	
-	private static final String PREFIX_INSTANCE_ID = "InstanceId:";
-	private static final String PREFIX_IMAGE_ID = "ImageId:";
 	private static final String PREFIX_RESERVATION_ID = "ReservationId:";
-	private static final String POSTFIX_INSTANCE_ID = "," + PREFIX_IMAGE_ID + " " + TEST_IMG_ID;
 	
 	private static final String NO_CONTENT_OK_RESPONCE = "{}";
 	
@@ -35,6 +32,7 @@ public class AppTest {
 	public void awsEc2LifeciceTest() throws FileNotFoundException, IllegalArgumentException, IOException {
 
 		Ec2Man man = new Ec2Man();
+
 		String sgName = "SG " + System.currentTimeMillis();
 		
 		String creteSGresponse = man.createSecutiryGroup(sgName, sgName);
@@ -42,25 +40,30 @@ public class AppTest {
 		Assert.assertTrue(creteSGresponse.contains("GroupId"));
 		
 		String authSGresponse = man.authorizeSecutiryGroup(sgName, "tcp", Arrays.asList(new IpRange[] {
-				new IpRange().withCidrIp("111.111.111.111/32"), new IpRange().withCidrIp("150.150.150.150/32") }), 22);
+				new IpRange().withCidrIp("111.111.111.111/32"), 
+				new IpRange().withCidrIp("150.150.150.150/32") 
+		}), 22);
 		log.log(Level.INFO, "authorize SG " + sgName + " \n response: " + authSGresponse);
 		Assert.assertTrue(authSGresponse.equals(NO_CONTENT_OK_RESPONCE));
 		
 		String createInstanceResponse = man.createInstance(TEST_IMG_ID, "t2.micro", "mrgreen", sgName);
 		Assert.assertTrue(
 				createInstanceResponse.contains(PREFIX_RESERVATION_ID) 
-				&& createInstanceResponse.contains(PREFIX_INSTANCE_ID)
-				&& createInstanceResponse.contains(PREFIX_IMAGE_ID + " " + TEST_IMG_ID));
+				&& createInstanceResponse.contains(Ec2Man.PREFIX_INSTANCE_ID)
+				&& createInstanceResponse.contains(Ec2Man.PREFIX_IMAGE_ID + " " + TEST_IMG_ID));
 
-		String instanseId = createInstanceResponse.substring(createInstanceResponse.indexOf(PREFIX_INSTANCE_ID) + PREFIX_INSTANCE_ID.length() + 1, 
-				createInstanceResponse.indexOf(POSTFIX_INSTANCE_ID));
+		String instanseId = Ec2Man.parseInstanseId(createInstanceResponse);
 
 		log.log(Level.INFO, "created instanse " + instanseId + " \n response: " + createInstanceResponse);
-		
+
 		log.log(Level.INFO, "waiting 20 sec.");
 		
 		wait4Test(20000);
-
+		
+		String instanseDns = Ec2Man.parseInstansePublicDns(man.describeInstances(instanseId));
+		
+		System.out.println(man.sshInstanse(instanseDns, "ls -l /home"));
+		
 		String terminateInstanceResponse = man.terminateInstance(instanseId);
 		
 		log.log(Level.INFO, "terminate instanse " + instanseId + " \n response " + terminateInstanceResponse);		
@@ -73,7 +76,7 @@ public class AppTest {
 		Assert.assertTrue(authSGresponse.equals(NO_CONTENT_OK_RESPONCE));
 
 		log.log(Level.INFO, "delete SG " + sgName + " \n response " + deleteSGResponse);		
-		
+	
 	}
 
 	private static void wait4Test(long timeout) {

@@ -63,13 +63,12 @@
 	</dependencies>
 
 	<build>
-		<resources>
+<!-- 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 			</resource>
-			<!-- <resource> <directory>${basedir}/src/main/java</directory> </resource> -->
-		</resources>
+		</resources> -->
 
 		<plugins>
 			<plugin>
@@ -81,8 +80,9 @@
 				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
 			<plugin>
-	                <groupId>org.codehaus.mojo</groupId>
-	                <artifactId>build-helper-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

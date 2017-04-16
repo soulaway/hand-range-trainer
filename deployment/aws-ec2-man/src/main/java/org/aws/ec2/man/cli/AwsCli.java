@@ -1,4 +1,4 @@
-package org.aws.ec2.man;
+package org.aws.ec2.man.cli;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,7 +24,7 @@ public enum AwsCli {
 		private Regions region = Regions.EU_CENTRAL_1;
 
 		@Override
-		public AmazonEC2 getCurrent() throws FileNotFoundException, IllegalArgumentException, IOException {
+		protected AmazonEC2 getCurrent() throws FileNotFoundException, IllegalArgumentException, IOException {
 			if (cli == null){
 				return createNew(cred, region);
 			}
@@ -32,7 +32,7 @@ public enum AwsCli {
 		}
 
 		@Override
-		public AmazonEC2 createNew(File cred, Regions region)
+		protected AmazonEC2 createNew(File cred, Regions region)
 				throws FileNotFoundException, IllegalArgumentException, IOException {
 			
 			if (cred != null && region != null) {
@@ -53,11 +53,18 @@ public enum AwsCli {
 			}
 		}
 	};
-	public abstract AmazonEC2 getCurrent() throws FileNotFoundException, IllegalArgumentException, IOException;
+	protected abstract AmazonEC2 getCurrent() throws FileNotFoundException, IllegalArgumentException, IOException;
 	
 	public final static Logger log = Logger.getLogger(AwsCli.class.getName());
 	
-	public abstract AmazonEC2 createNew(File cred, Regions region)
+	protected abstract AmazonEC2 createNew(File cred, Regions region)
 			throws FileNotFoundException, IllegalArgumentException, IOException;
-
+	
+	public static AmazonEC2 perform() throws FileNotFoundException, IllegalArgumentException, IOException{
+		return AwsCli.instance.getCurrent();
+	}
+	
+	public static AmazonEC2 perform(File cred, Regions region) throws FileNotFoundException, IllegalArgumentException, IOException{
+		return AwsCli.instance.createNew(cred, region);
+	}
 }

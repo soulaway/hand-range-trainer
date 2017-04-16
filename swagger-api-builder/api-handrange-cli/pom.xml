@@ -16,16 +16,17 @@
 	</properties>
 
 	<build>
-		<resources>
+<!-- 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 			</resource>
-		</resources>
+		</resources> -->
 
 		<plugins>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
 				<executions>
 					<execution>
 						<id>copy-resources</id>
