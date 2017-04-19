@@ -11,7 +11,7 @@ info:
   license:
     name: MIT
     url: http://opensource.org/licenses/MIT
-host: somehost:8080
+host: ec2-54-93-211-0.eu-central-1.compute.amazonaws.com:8080
 basePath: /api
 schemes:
   - http
