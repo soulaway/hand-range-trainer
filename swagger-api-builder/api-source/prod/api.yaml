@@ -1,0 +1,302 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: Swagger Hand range trainer API
+  description: Hand range trainer API by swagger-2.0 specification
+  termsOfService: https://ocw.mit.edu/terms/
+  contact:
+    name: Soloviev Dmitry
+    email: dgsoloviev@gmail.com
+    url: https://github.com/soulaway
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+host: somehost:8080
+basePath: /api
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+
+  /range/:
+    get:
+      description: Returns all ranges from the system
+      operationId: findRanges
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: ranges response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Range'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    put:
+      description: Updats existed range.
+      operationId: updateRange
+      produces:
+        - application/json
+      parameters:
+        - name: range
+          in: body
+          description: Range to update
+          required: true
+          schema:
+            $ref: '#/definitions/Range'
+      responses:
+        '200':
+          description: ranges response
+          schema:
+            $ref: '#/definitions/Range'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /range/new/{value}:
+    post:
+      description: Creates a new range in the store.  Duplicates are disallowed //TODO disallow
+      operationId: addRange
+      produces:
+        - application/json
+      parameters:
+        - name: value
+          in: path
+          description: String range representation, e.g. "AA-QQ,TT-77"
+          required: true
+          type: string
+        - name: type
+          in: body
+          description: Range type
+          required: true
+          schema:
+            $ref: '#/definitions/RangeType'
+      responses:
+        '200':
+          description: ranges response
+          schema:
+            $ref: '#/definitions/Range'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /range/{rangeId}:
+    get:
+      description: Returns a Range based on a single ID
+      operationId: findRangeById
+      produces:
+        - application/json
+      parameters:
+        - name: rangeId
+          in: path
+          description: ID of range to fetch
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: range response
+          schema:
+            $ref: '#/definitions/Range'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    delete:
+      description: deletes a single Range based on the ID
+      operationId: deleteRange
+      parameters:
+        - name: rangeId
+          in: path
+          description: ID of the range to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: range deleted
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /hand/{rangeId}:
+    post:
+      description: Generates two cards hand. Might not be equal.
+      operationId: genHand
+      produces:
+        - application/json
+      parameters:
+        - name: rangeId
+          in: path
+          description: Range Id of the new Hand being generated
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: ranges response
+          schema:
+            $ref: '#/definitions/Hand'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /hand/:
+    put:
+      description: Updates givven hand with answer.
+      operationId: solveHand
+      produces:
+        - application/json
+      parameters:
+        - name: hand
+          in: body
+          description: Hand to solve
+          required: true
+          schema:
+            $ref: '#/definitions/Hand'
+      responses:
+        '200':
+          description: ranges response
+          schema:
+            $ref: '#/definitions/RangeStat'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+definitions:
+  
+  Range:
+    type: object
+    required:
+      - rangeId
+      - value
+    properties:
+      rangeId:
+        type: integer
+        format: int64
+      name:
+        type: string
+      value:
+        type: string
+      table:
+        $ref: '#/definitions/RangeTable'
+      type:
+        $ref: '#/definitions/RangeType'
+
+  RangeType:
+    type: string
+    enum: ['1a','2b','3c','4d']
+
+  RangeStat:
+    type: object
+    required:
+      - rangeId
+    properties:
+      rangeId:
+        type: integer
+        format: int64
+      total:
+        type: integer
+        format: int32
+      successed:
+        type: integer
+        format: int32
+      lastTry:
+        type: boolean
+
+  Card:
+    type: object
+    required:
+      - rank
+      - suite
+    properties:
+      rank:
+        type: string
+      suite:
+        type: string
+
+  Hand:
+    type: object
+    description: Hand of two cards with info about Range 
+    required:
+      - rangeId
+      - left
+      - right
+    properties:
+      rangeId:
+        type: integer
+        format: int64
+      left:
+        $ref: '#/definitions/Card'
+      right:
+        $ref: '#/definitions/Card'
+      answer:
+        type: integer
+        format: int32
+  
+  RangeTable:
+    type: object
+    description: symmetric matrix - vector for main diagonal and both low and high triangle matrixes for unpaired hands.
+    required:
+      - mainDiag
+      - mtxS
+      - mtxO
+    properties:
+      mainDiag:
+        $ref: '#/definitions/TableItems'
+      mtxS:
+        type: array
+        description: High Triangle (Symmetric to mtxO) Matrix [(AK-A2); (KQ-K2); ... (32)] defining hands with same colors
+        items:
+          $ref: '#/definitions/TableItems'
+      mtxO:
+        type: array
+        description: Low Triangle (Symmetric to mtxS) Matrix [(AK-A2); (KQ-K2); ... (32)] defining hands with different colors
+        items:
+          $ref: '#/definitions/TableItems'
+  
+  TableItems:
+    type: object
+    description: the ranges vector. e.g. [AA-22] or [AKs-A2s]
+    required:
+      - values
+    properties:
+      values:
+        type: array
+        items:
+          $ref: '#/definitions/TableItem'    
+
+  TableItem:
+    type: object
+    description: represents an visible object in ranges table
+    required:
+      - val
+    properties:
+      val:
+        type: string
+      option:
+        type: integer
+        format: int32 
+                    
+  ErrorModel:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string

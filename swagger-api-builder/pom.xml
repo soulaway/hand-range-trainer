@@ -26,65 +26,87 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		
-		<api-filename>api.yaml</api-filename>
-		
 		<api-package>com.github.soulaway.myRestApi</api-package>
-		
+		<api-filename>api.yaml</api-filename>
 		<!-- swagger magic, default values, might overrides by children-->
 		<swagger-codegen-maven-plugin-language></swagger-codegen-maven-plugin-language>
 		<swagger-codegen-maven-plugin-library></swagger-codegen-maven-plugin-library>
 		
 	</properties>
 	
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+        		<activeByDefault>true</activeByDefault>
+        	</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+			                <execution>
+			                    <id>copy-api-file</id>
+			                    <phase>clean</phase>
+			                    <goals>
+			                        <goal>copy-resources</goal>
+			                    </goals>
+			                    <configuration>
+			                        <outputDirectory>${basedir}/src/main/resources</outputDirectory>
+			                        <resources>
+			                            <resource>
+			                                <directory>${basedir}/../api-source/dev/</directory>
+			                                <includes>
+			                                    <include>${api-filename}</include>
+			                                </includes>
+			                            </resource>
+			                        </resources>
+			                    </configuration>
+			                </execution>
+			           </executions>
+					</plugin>
+				</plugins>
+			</build>
+        </profile>
+        <profile>
+        	<id>prod</id>
+			<activation>
+        		<activeByDefault>false</activeByDefault>
+        	</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+			                <execution>
+			                    <id>copy-api-file</id>
+			                    <phase>package</phase>
+			                    <goals>
+			                        <goal>copy-resources</goal>
+			                    </goals>
+			                    <configuration>
+			                        <outputDirectory>${basedir}/src/main/resources</outputDirectory>
+			                        <resources>
+			                            <resource>
+			                                <directory>${basedir}/../api-source/prod/</directory>
+			                                <includes>
+			                                    <include>${api-filename}</include>
+			                                </includes>
+			                            </resource>
+			                        </resources>
+			                    </configuration>
+			                </execution>
+			           </executions>
+					</plugin>
+				</plugins>
+			</build>
+        </profile>
+	</profiles>
+	
 	<build>
 		<pluginManagement>
 			<plugins>
-				<plugin>
-					<groupId>com.sun.jersey.contribs</groupId>
-					<artifactId>maven-wadl-plugin</artifactId>
-					<version>1.17</version>
-					<executions>
-						<execution>
-							<id>generate</id>
-							<goals>
-								<goal>generate</goal>
-							</goals>
-							<phase>${javadoc-phase}</phase>
-						</execution>
-					</executions>
-					<configuration>
-						<wadlFile>${project.build.outputDirectory}/application.wadl
-						</wadlFile>
-						<formatWadlFile>true</formatWadlFile>
-						<baseUri>http://localhost:8080/my/api</baseUri>
-						<packagesResourceConfig>
-							<param>${api-package}.api</param>
-						</packagesResourceConfig>
-						<wadlGenerators>
-							<wadlGeneratorDescription>
-								<className>com.sun.jersey.server.wadl.generators.WadlGeneratorApplicationDoc
-								</className>
-								<properties>
-									<property>
-										<name>applicationDocsFile</name>
-										<value>${basedir}/src/main/doc/application-doc.xml</value>
-									</property>
-								</properties>
-							</wadlGeneratorDescription>
-							<wadlGeneratorDescription>
-								<className>com.sun.jersey.server.wadl.generators.WadlGeneratorGrammarsSupport
-								</className>
-								<properties>
-									<property>
-										<name>grammarsFile</name>
-										<value>${basedir}/src/main/doc/application-grammars.xml</value>
-									</property>
-								</properties>
-							</wadlGeneratorDescription>
-						</wadlGenerators>
-					</configuration>
-				</plugin>
-	
+				
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jar-plugin</artifactId>
