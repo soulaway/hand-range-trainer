@@ -63,18 +63,7 @@
 	</dependencies>
 
 	<build>
-<!-- 		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources> -->
-
 		<plugins>
-			<plugin>
-				<groupId>com.sun.jersey.contribs</groupId>
-				<artifactId>maven-wadl-plugin</artifactId>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -116,12 +105,8 @@
 								<pluginExecution>
 									<pluginExecutionFilter>
 										<groupId>io.swagger</groupId>
-										<artifactId>
-											swagger-codegen-maven-plugin
-										</artifactId>
-										<versionRange>
-											[2.2.2,)
-										</versionRange>
+										<artifactId>swagger-codegen-maven-plugin</artifactId>
+										<versionRange>[2.2.2,)</versionRange>
 										<goals>
 											<goal>generate</goal>
 										</goals>
