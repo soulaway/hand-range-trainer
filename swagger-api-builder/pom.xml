@@ -40,73 +40,50 @@
 			<activation>
         		<activeByDefault>true</activeByDefault>
         	</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-			                <execution>
-			                    <id>copy-api-file</id>
-			                    <phase>clean</phase>
-			                    <goals>
-			                        <goal>copy-resources</goal>
-			                    </goals>
-			                    <configuration>
-			                        <outputDirectory>${basedir}/src/main/resources</outputDirectory>
-			                        <resources>
-			                            <resource>
-			                                <directory>${basedir}/../api-source/dev/</directory>
-			                                <includes>
-			                                    <include>${api-filename}</include>
-			                                </includes>
-			                            </resource>
-			                        </resources>
-			                    </configuration>
-			                </execution>
-			           </executions>
-					</plugin>
-				</plugins>
-			</build>
+			<properties>
+				<api-filename-path>${basedir}/../api-source/dev/</api-filename-path>
+			</properties>
         </profile>
         <profile>
         	<id>prod</id>
 			<activation>
         		<activeByDefault>false</activeByDefault>
         	</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-			                <execution>
-			                    <id>copy-api-file</id>
-			                    <phase>package</phase>
-			                    <goals>
-			                        <goal>copy-resources</goal>
-			                    </goals>
-			                    <configuration>
-			                        <outputDirectory>${basedir}/src/main/resources</outputDirectory>
-			                        <resources>
-			                            <resource>
-			                                <directory>${basedir}/../api-source/prod/</directory>
-			                                <includes>
-			                                    <include>${api-filename}</include>
-			                                </includes>
-			                            </resource>
-			                        </resources>
-			                    </configuration>
-			                </execution>
-			           </executions>
-					</plugin>
-				</plugins>
-			</build>
+			<properties>
+				<api-filename-path>${basedir}/../api-source/prod/</api-filename-path>
+			</properties>
         </profile>
 	</profiles>
 	
 	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+				<executions>
+	                <execution>
+	                    <id>copy-api-file</id>
+	                    <phase>clean</phase>
+	                    <goals>
+	                        <goal>copy-resources</goal>
+	                    </goals>
+	                    <configuration>
+	                        <outputDirectory>${project.build.directory}/apifile</outputDirectory>
+	                        <resources>
+	                            <resource>
+	                                <directory>${api-filename-path}</directory>
+	                                <includes>
+	                                    <include>${api-filename}</include>
+	                                </includes>
+	                            </resource>
+	                        </resources>
+	                    </configuration>
+	                </execution>
+	           </executions>
+			</plugin>		
+		</plugins>
 		<pluginManagement>
 			<plugins>
-				
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jar-plugin</artifactId>
@@ -154,7 +131,7 @@
 							</goals>
 							<configuration>
 								<!-- specify the swagger yaml -->
-								<inputSpec>${basedir}/src/main/resources/${api-filename}</inputSpec>
+								<inputSpec>${project.build.directory}/apifile/${api-filename}</inputSpec>
 								<!-- target to generate -->
 								<language>${swagger-codegen-maven-plugin-language}</language>
 								<!-- pass any necessary config options -->
