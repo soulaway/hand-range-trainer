@@ -6,7 +6,7 @@ Might be useful for online players to increase their skills in Holdem Poker
 
 uses Maven and Swagger to build rest api for stack java/spring-boot and js/angular2 applications based on .yaml modell describtor:
 
-<https://github.com/soulaway/hand-range-trainer/blob/master/swagger-api-builder/api-handrange/src/main/resources/api.yaml/>
+<https://github.com/soulaway/hand-range-trainer/blob/master/swagger-api-builder/api-source/prod/api.yaml>
 
 prerequired:
 
