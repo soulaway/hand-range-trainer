@@ -20,6 +20,8 @@ prerequired:
 
 Build:
 
+> git clone https://github.com/soulaway/hand-range-trainer.git
+
 > cd ../hand-range-trainer
 
 > mvn clean install -Pdev
