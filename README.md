@@ -22,7 +22,7 @@ Build:
 
 > cd ../hand-range-trainer
 
-> mvn install
+> mvn install -Pdev
 
 Run backend on 8080:
 
